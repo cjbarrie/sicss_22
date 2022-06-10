@@ -1,0 +1,162 @@
+---
+title: "Using APIs"
+subtitle: "SICSS, 2022"
+author: Christopher Barrie
+format: revealjs
+editor: visual
+---
+
+## Introduction
+
+-   Why get tweet*ers*?
+    -   Get network characteristics
+    -   Get user demographics
+    -   Linked survey designs
+
+## Introduction
+
+-   Before that: getting data outside the API
+    -   Datasets shared online, e.g.,:
+
+        -   [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2FIFLH)
+
+        -   <https://catalog.docnow.io/>
+
+        -   [Zenodo](https://zenodo.org/record/4540820#.YmJTYcaEaLc)
+
+## Hydrating
+
+```{r, eval = T, echo = T}
+tweet_IDs <- readRDS("data/wm_IDs_samp.rds")
+head(tweet_IDs)
+```
+
+```{r, eval = F, echo = T}
+library(academictwitteR)
+
+hydrated_tweets <- hydrate_tweets(tweet_IDs, errors = T,
+                                  data_path = "data/hydrated_tweets/")
+```
+
+    Batch 1 out of 10 : ids 823360655835168640 to 822916951878103040 
+    Total  78  tweet(s) can't be retrieved.
+    Total of  22  out of  1000  tweet(s) retrieved.
+    Batch 2 out of 10 : ids 823501383282241408 to 822817264915378048 
+    Total  154  tweet(s) can't be retrieved.
+    Total of  46  out of  1000  tweet(s) retrieved.
+    Batch 3 out of 10 : ids 823087701117337600 to 823227815374061440 
+    Total  225  tweet(s) can't be retrieved.
+    Total of  75  out of  1000  tweet(s) retrieved.
+    Batch 4 out of 10 : ids 823045907264499712 to 825034383769767808 
+    Total  301  tweet(s) can't be retrieved.
+    Total of  99  out of  1000  tweet(s) retrieved.
+    Batch 5 out of 10 : ids 822984540494950400 to 822996642618101760 
+    Error in make_query(url = endpoint_url, params = params, bearer_token = bearer_token,  : 
+      something went wrong. Status code: 400
+
+## Hydrating
+
+Alternatively:
+
+Use the [hydrator](https://github.com/DocNow/hydrator#readme) tool from DocTheNow
+
+## Getting tweeters
+
+```{r, eval = T, echo = T}
+library(academictwitteR)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+
+cjb_ID <- get_user_id("cbarrie")
+cjb_ID
+
+```
+
+## Getting whom I follow (friends)
+
+::: panel-tabset
+### IDs
+
+```{r, eval = F, echo = T}
+userfwing <- get_user_following(cjb_ID)
+
+ids <- userfwing$id
+
+head(ids)
+```
+
+```{r, eval = T, echo = F}
+userfwing <- readRDS("data/cjbfwing.rds")
+ids <- userfwing$id
+head(ids)
+```
+
+### User data
+
+```{r, eval = T, echo = F}
+userfwingsamp <- userfwing %>%
+  sample_n(20)
+kableExtra::kable(userfwingsamp)
+```
+:::
+
+## User-level inference
+
+Example from [here](https://github.com/euagendas/m3inference)
+
+```{python, eval = F, echo = T}
+
+from m3inference import M3Inference
+import pprint
+m3 = M3Inference() # see docstring for details
+pred = m3.infer('./test/data_resized.jsonl') # also see docstring for details
+pprint.pprint(pred)
+```
+
+    OrderedDict([('720389270335135745',
+                  {'age': {'19-29': 0.1546,
+                           '30-39': 0.114,
+                           '<=18': 0.0481,
+                           '>=40': 0.6833},
+                   'gender': {'female': 0.0066, 'male': 0.9934},
+                   'org': {'is-org': 0.7508, 'non-org': 0.2492}}),
+                 ('21447363',
+                  {'age': {'19-29': 0.0157,
+                           '30-39': 0.9837,
+                           '<=18': 0.0004,
+                           '>=40': 0.0002},
+                   'gender': {'female': 0.9866, 'male': 0.0134},
+                   'org': {'is-org': 0.0002, 'non-org': 0.9998}}),
+        ...
+      ...
+
+## User-level inference
+
+```{r, eval = T, echo = T}
+devtools::install_github("pablobarbera/twitter_ideology/pkg/tweetscores")
+library(tweetscores)
+```
+
+## User-level inference
+
+```{r, eval=F, echo = T}
+results <- estimateIdeology("cbarrie", ids)
+plot(results)
+```
+
+```{r, eval=T, echo = F}
+results <- readRDS("data/cjbtscore.rds")
+plot(results)
+
+```
+
+## User-level geolocation
+
+```{r, eval = T, echo = T}
+userfwing %>%
+  group_by(location) %>%
+  summarise(count = n()) %>%
+  top_n(count)
+```

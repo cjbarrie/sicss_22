@@ -1,0 +1,74 @@
+---
+title: "Web scraping"
+subtitle: "SICSS, 2022"
+author: Christopher Barrie
+format: revealjs
+editor: visual
+---
+
+## Introduction
+
+-   Why scrape?
+    -   When there's not an API...
+
+## Scraping webpages
+
+```{r, eval = T, echo = F}
+library(dplyr)
+library(readr) 
+library(stringr) 
+library(rvest)
+```
+
+```{r, eval = F, echo = T}
+#| code-line-numbers: "|6|8"
+
+library(dplyr)
+library(readr) 
+library(stringr) 
+library(rvest)
+
+url <- "https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/"
+
+html <- read_html(url)
+
+```
+
+## Getting page text
+
+```{r, eval = F, echo = T}
+#| code-line-numbers: "|2|3|4"
+
+# identify relevant text
+html %>%
+  html_elements("p") %>%
+  html_text(trim=TRUE)
+```
+
+## Getting page elements
+
+```{r, eval = F, echo = T}
+#| code-line-numbers: "|2|3|4"
+
+# identify relevant text
+html %>% 
+  html_elements(".calendar") %>%
+  html_text(trim=TRUE)
+```
+
+## Looping through urls
+
+```{r, eval = F, echo = T}
+#| code-line-numbers: "|2|3|4|5|6|7|8|9"
+
+pamlinks_all <- character(0)
+for (i in seq_along(urlpages_all)) {
+  url <- urlpages_all[i]
+  html <- read_html(url)
+  links <- html_elements(html, ".post , h2") %>%
+    html_children() %>%
+    html_attr("href") %>%
+    na.omit() %>%
+    `attributes<-`(NULL)
+  pamlinks_all <- c(pamlinks_all, links)
+}
