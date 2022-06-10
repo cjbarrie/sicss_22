@@ -3,12 +3,12 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.165">
   <meta name="author" content="Christopher Barrie">
-  <title>Web scraping</title>
+  <title>Introduction</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="04_scraping_examples_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="04_scraping_examples_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="000_intro_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="000_intro_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -17,19 +17,19 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <link rel="stylesheet" href="04_scraping_examples_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="000_intro_files/libs/revealjs/dist/theme/quarto.css" id="theme">
 
-  <script src="04_scraping_examples_files/libs/clipboard/clipboard.min.js"></script>
-  <script src="04_scraping_examples_files/libs/quarto-html/tabby.min.js"></script>
-  <script src="04_scraping_examples_files/libs/quarto-html/popper.min.js"></script>
-  <script src="04_scraping_examples_files/libs/quarto-html/tippy.umd.min.js"></script>
-  <link href="04_scraping_examples_files/libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="04_scraping_examples_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
-  <link id="quarto-text-highlighting-styles" href="04_scraping_examples_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <link href="04_scraping_examples_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="04_scraping_examples_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="04_scraping_examples_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="04_scraping_examples_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <script src="000_intro_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="000_intro_files/libs/quarto-html/tabby.min.js"></script>
+  <script src="000_intro_files/libs/quarto-html/popper.min.js"></script>
+  <script src="000_intro_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <link href="000_intro_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="000_intro_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="000_intro_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <link href="000_intro_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="000_intro_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="000_intro_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="000_intro_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -321,43 +321,69 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">Web scraping</h1>
+  <h1 class="title">Introduction</h1>
   <p class="subtitle">SICSS, 2022</p>
   <p class="author">Christopher Barrie</p>
 </section>
 
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
+<ol type="1">
+<li>Housekeeping</li>
+<li>Summer school structure</li>
+<li>Intro. CSS</li>
+<li>Ethics</li>
+</ol>
+</section>
+<section id="housekeeping" class="slide level2">
+<h2>Housekeeping</h2>
 <ul>
-<li>Why scrape pages?
+<li><p>Lunches 13:00-14:00 daily:</p>
 <ul>
-<li>Often, because there’s no API…</li>
-<li>Or the API doesn’t give us what we want</li>
-<li>Or we just want to grab a small amount of info…</li>
+<li><p>Vegan/vegetarian/GF options (go to front of queue!)</p></li>
+<li><p>Hot drinks vouchers</p></li>
+<li><p>Water bottles</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="early-origins" class="slide level2">
-<h2>Early origins…</h2>
-
-<img data-src="images/pageso.png" class="r-stretch"></section>
-<section id="examples" class="slide level2">
-<h2>Examples</h2>
-
-<img data-src="images/auditnhb.png" class="r-stretch"><ul>
-<li><strong>Data and code</strong> <a href="https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4">https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4</a></li>
+<section id="housekeeping-1" class="slide level2">
+<h2>Housekeeping</h2>
+<ul>
+<li><p>Slack</p>
+<ul>
+<li><p>Keep it on!</p></li>
+<li><p>Channels for <strong><em>materials</em></strong></p></li>
+<li><p>Channels for <strong><em>prep.</em></strong></p></li>
+</ul></li>
 </ul>
 </section>
-<section id="examples-1" class="slide level2">
-<h2>Examples</h2>
-
-<img data-src="images/urmansscr.png" class="r-stretch"></section>
-<section id="group-work" class="slide level2">
-<h2>Group work</h2>
-<ol type="1">
-<li>Come up with a question answerable using scraped data</li>
-<li>Detail the data you would collect</li>
-</ol>
+<section id="summer-school-structure" class="slide level2">
+<h2>Summer school structure</h2>
+<ul>
+<li>5 Organizers:
+<ul>
+<li><p>Björn, Chris, Karen, Tod, and Walid</p></li>
+<li><p>Chris: main point of contact</p></li>
+</ul></li>
+<li>3 Teaching Assistants:
+<ul>
+<li>Aybuke, Ibrahim, and Youssef</li>
+</ul></li>
+</ul>
+</section>
+<section id="summer-school-structure-1" class="slide level2">
+<h2>Summer school structure</h2>
+<ul>
+<li>5 Days intensive instruction
+<ul>
+<li><p>10:00-16:00 everyday</p></li>
+<li><p>16:00-17:30 research talk</p></li>
+</ul></li>
+<li>See: <a href="https://sicss.io/2022/edinburgh/schedule" class="uri">https://sicss.io/2022/edinburgh/schedule</a> for full schedule
+<ul>
+<li>Updated daily + linked materials</li>
+</ul></li>
+</ul>
 <div class="footer footer-default">
 
 </div>
@@ -366,18 +392,18 @@
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="04_scraping_examples_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="000_intro_files/libs/revealjs/dist/reveal.js"></script>
 
   <!-- reveal.js plugins -->
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/quarto-support/support.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="04_scraping_examples_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="000_intro_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
 

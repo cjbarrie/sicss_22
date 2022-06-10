@@ -26,3 +26,8 @@ editor: visual
 ## Examples
 
 ![](images/urmansscr.png)
+
+## Group work
+
+1. Come up with a question answerable using scraped data
+2. Detail the data you would collect

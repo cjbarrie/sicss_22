@@ -1,0 +1,52 @@
+---
+title: "Introduction"
+subtitle: "SICSS, 2022"
+author: Christopher Barrie
+format: revealjs
+editor: visual
+---
+
+## Introduction
+
+1.  Housekeeping
+2.  Summer school structure
+3.  Intro. CSS
+4.  Ethics
+
+## Housekeeping
+
+-   Lunches 13:00-14:00 daily:
+
+    -   Vegan/vegetarian/GF options (go to front of queue!)
+
+    -   Hot drinks vouchers
+
+    -   Water bottles
+
+## Housekeeping
+
+-   Slack
+
+    -   Keep it on!
+
+    -   Channels for ***materials***
+
+    -   Channels for ***prep.***
+
+## Summer school structure
+
+-   5 Organizers:
+    -   Björn, Chris, Karen, Tod, and Walid
+
+    -   Chris: main point of contact
+-   3 Teaching Assistants:
+    -   Aybuke, Ibrahim, and Youssef
+
+## Summer school structure
+
+-   5 Days intensive instruction
+    -   10:00-16:00 everyday
+
+    -   16:00-17:30 research talk
+-   See: <https://sicss.io/2022/edinburgh/schedule> for full schedule
+    -   Updated daily + linked materials

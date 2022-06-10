@@ -22,7 +22,7 @@ editor: visual
 
 -   "Application Programming Interface"
     -   We'll focus on: Web APIs
-    
+
 ## API use over time
 
 ![](images/programweb.png){fig-align="center"}
@@ -35,60 +35,21 @@ editor: visual
 
 ![](images/twitterAPI.png){fig-align="center"}
 
-## Analyzing Twitter data
+## Examples
 
-Why?
+![](images/diggengap.png){fig-align="center" width="406"}
 
-1.  Important site of political communication
-2.  Important site of social interaction
-3.  It's very accessible
+-   **APIs used**: Google AdWords; Facebook Marketing
+-   **Data and code**: <https://www.demographic-research.org/volumes/vol43/27/>
 
-Especially, since intro. of **Academic Research Product Track**...
+## Examples
 
-## Twitter Academic API
+![](images/munger1.png){fig-align="center" width="406"}
 
--   10m tweets monthly
--   Full historical archive
--   Authorization requires...
+-   **APIs used**: YouTube API
+-   **Data and code**: <https://github.com/kmunger/YT_descriptive>
 
-## Authorization
-
-Go [here](https://developer.twitter.com/en/products/twitter-api/academic-research)
-
-1.  Do you have an academic profile?
-2.  Can you describe your research?
-    -   Will you share with government entity?
-    -   Is the research non-commercial?
-    -   Is it conducted at individual level?
-    -   Will you make non-anon. data available?
-
-## What you'll see
-
-![](images/twitterdev.png){fig-align="center"}
-
-Or a live example...
-
-## What you'll see
-
-This is what the [Developer Portal](https://developer.twitter.com/en/portal/dashboard) looks like
-
-## Getting started...
-
-![](images/TWITTER_BEARER.gif){fig-align="center"}
-
-Don't forget to **Restart R**
-
-## After we've done that...
-
-We're good to go 🥳
-
-## After we've done that...
-
-We're good to go 🥳
-
-But **before** we do that...
-
-## What's an API anyway?
+## What's an API made of?
 
 -   We're talking about *Web APIs*
 -   "**A**pplication **P**rogramming **I**nterface"
@@ -178,3 +139,83 @@ params
 -   But we'll also be thinking later more generally about:
     -   APIs
     -   research design
+
+## Analyzing Twitter data
+
+Why?
+
+1.  Important site of political communication
+2.  Important site of social interaction
+3.  It's very accessible
+
+Especially, since intro. of **Academic Research Product Track**...
+
+## Twitter Academic API
+
+-   10m tweets monthly
+-   Full historical archive
+-   Authorization requires...
+
+## Authorization
+
+Go [here](https://developer.twitter.com/en/products/twitter-api/academic-research)
+
+1.  Do you have an academic profile?
+2.  Can you describe your research?
+    -   Will you share with government entity?
+    -   Is the research non-commercial?
+    -   Is it conducted at individual level?
+    -   Will you make non-anon. data available?
+
+## What you'll see
+
+![](images/twitterdev.png){fig-align="center"}
+
+Or a live example...
+
+## What you'll see
+
+This is what the [Developer Portal](https://developer.twitter.com/en/portal/dashboard) looks like
+
+## Getting started...
+
+![](images/TWITTER_BEARER.gif){fig-align="center"}
+
+Don't forget to **Restart R**
+
+## After we've done that...
+
+We're good to go 🥳
+
+## After we've done that...
+
+We're good to go 🥳...
+
+Sort of
+
+## Ethical considerations
+
+![](images/dectree.png){fig-align="center"}
+
+## Ethical considerations
+
+::: {layout-ncol="2"}
+![](images/bitbybit.png)
+
+"I don't think researchers should not be automatically bound by such terms-of-service agreements. Ideally, if researchers violate terms- of-service agreements, they should explain their decision openly... as suggested by transparency-based accountability. But this openness may expose researchers to added legal risk..."
+:::
+
+## Ethical considerations
+
+::: {layout-ncol="2"}
+![](images/freelon.png)
+
+""By employing TOS- compliant methods, you are respecting the business prerogatives of the company that created the platform you are studying, but you may or may not be respecting the dignity and privacy of the platform's users" "
+:::
+
+## Summary
+
+-   Difference between TOS compliance and ethics
+    -   But related: users expect privacy
+-   Difference between ethics and legality
+    -   But related: users may be vulnerable
