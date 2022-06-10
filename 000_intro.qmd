@@ -44,9 +44,82 @@ editor: visual
 
 ## Summer school structure
 
+-   3 supporters:
+    -   [SSPS](https://www.sps.ed.ac.uk/); 🙏
+    -   [RTC](https://research-training-centre.sps.ed.ac.uk/); 🙏
+    -   and [Turing Institute](https://www.turing.ac.uk/) 🙏
+
+## Summer school structure
+
 -   5 Days intensive instruction
     -   10:00-16:00 everyday
 
     -   16:00-17:30 research talk
 -   See: <https://sicss.io/2022/edinburgh/schedule> for full schedule
     -   Updated daily + linked materials
+
+## Summer school structure
+
+-   4 (and a bit) days group work
+    -   10:00-16/17:00 everyday
+-   Final Day Presentations
+    -   12:00-16/17:00 everyday
+-   Final meal 🥳
+
+## Intro.: Computational Social Science
+
+-   What is it?
+
+## Intro.: Computational Social Science
+
+::: {layout-ncol="2"}
+![](images/edelmann.png)
+
+"Computational social science is an interdisciplinary field that advances theories of human behavior by applying computational techniques to large datasets from social media sites, the Internet, or other digitized archives such as administrative records."
+:::
+
+## Intro.: Computational Social Science
+
+::: {layout-ncol="2"}
+![](images/cssobstacles.png)
+
+"\[CSS is\] the development and application of computational methods to complex, typically large-scale, human (sometimes simulated) behavioral data."
+:::
+
+## Intro.: Computational Social Science
+
+Commonalities:
+
+-   Computationally intensive methods
+
+-   New types of data
+
+-   Outcome of interest is ultimately human behaviour (?)
+
+## Intro.: Computational Social Science
+
+Tensions:
+
+-   Place of theory
+
+    -   Theory from data
+
+    -   New data for old theories?
+
+## Where has this all come from?
+
+## 
+
+![](images/intpen.png){fig-align="center"}\
+
+## 
+
+![](images/smpen.png){fig-align="center"}\
+
+## 
+
+![](images/wwwsites.png){fig-align="center"}\
+
+## 
+
+![](images/dtdata.png){fig-align="center"}\
