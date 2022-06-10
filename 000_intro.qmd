@@ -123,3 +123,39 @@ Tensions:
 ## 
 
 ![](images/dtdata.png){fig-align="center"}\
+
+## Why are these data different?
+
+1.  Volume
+2.  Velocity
+3.  Producers
+4.  Variety
+
+## Digital trace data
+
+What is digital trace data?
+
+-   Social media posts
+
+-   Blogs and webpages
+
+-   Call detail records (CDRs)
+
+-   Web searches
+
+-   Wearables
+
+-   Internet of Things
+
+## Digital trace data
+
+What does it look like?
+
+::: {#fig-salganik}
+
+![](images/readymade.png){fig-align="center"}
+
+Salganik, Matthew. 2018. Bit by Bit: Social Research in the Digital Age. Princeton: Princeton University Press. p.7.
+:::
+
+## Examples
