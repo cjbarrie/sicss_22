@@ -8,7 +8,7 @@
 
 ## APIs Intro.
 
--   Intro and auth slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/00_auth.html)
+-   Intro. and auth. slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/00_auth.html)
 
 ## Twitter API: tweet counts
 
@@ -27,3 +27,13 @@
 -   Code slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/03_get_tweeters.html)
 -   Applied slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/03_get_tweeters_examples.html)
 -   Script(s): [here](https://github.com/cjbarrie/sicss_22/blob/main/03_get_tweeters.R)
+
+## Scraping Intro.
+
+-   Intro. slides:  [here](https://raw.githack.com/cjbarrie/sicss_22/main/04_scraping_examples.html)
+
+## Scraping: online documents
+
+-   Code slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/04_scrape_pages.html)
+-   Notebook: [here](https://raw.githack.com/cjbarrie/sicss_22/main/04_scraping_notebook.html)
+-   Script(s): [here](https://github.com/cjbarrie/sicss_22/blob/main/04_scraping.R)

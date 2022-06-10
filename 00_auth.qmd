@@ -18,6 +18,23 @@ editor: visual
 
     -   Group work
 
+## What is an API?
+
+-   "Application Programming Interface"
+    -   We'll focus on: Web APIs
+    
+## API use over time
+
+![](images/programweb.png){fig-align="center"}
+
+## Early APIs
+
+![](images/ebayAPI.png){fig-align="center"}
+
+## Early APIs
+
+![](images/twitterAPI.png){fig-align="center"}
+
 ## Analyzing Twitter data
 
 Why?
@@ -104,6 +121,7 @@ But **before** we do that...
 endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
 cat(endpoint_url, paste0("+ something + something else"))
 ```
+
 ## What is it made of?
 
 1.  A query
@@ -159,5 +177,4 @@ params
 -   We'll focus on `academictwitteR`
 -   But we'll also be thinking later more generally about:
     -   APIs
-
     -   research design

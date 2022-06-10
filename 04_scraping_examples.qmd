@@ -1,0 +1,28 @@
+---
+title: "Web scraping"
+subtitle: "SICSS, 2022"
+author: Christopher Barrie
+format: revealjs
+editor: visual
+---
+
+## Introduction
+
+-   Why scrape pages?
+    -   Often, because there's no API...
+    -   Or the API doesn't give us what we want
+    -   Or we just want to grab a small amount of info...
+
+## Early origins...
+
+![](images/pageso.png)
+
+## Examples
+
+![](images/auditnhb.png)
+
+- **Data and code** [https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4](https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4)
+
+## Examples
+
+![](images/urmansscr.png)

@@ -6,11 +6,6 @@ format: revealjs
 editor: visual
 ---
 
-## Introduction
-
--   Why scrape?
-    -   When there's not an API...
-
 ## Scraping webpages
 
 ```{r, eval = T, echo = F}
@@ -72,3 +67,4 @@ for (i in seq_along(urlpages_all)) {
     `attributes<-`(NULL)
   pamlinks_all <- c(pamlinks_all, links)
 }
+```

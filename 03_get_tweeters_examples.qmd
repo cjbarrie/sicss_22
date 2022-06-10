@@ -22,7 +22,7 @@ editor: visual
 
 ## Getting tweeters example
 
--   As alternative to survey
+-   As alternative to survey: <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0259972>
 
 ![](images/geolocwm.png)\
 
