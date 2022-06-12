@@ -2,7 +2,9 @@
 title: "Web scraping"
 subtitle: "SICSS, 2022"
 author: Christopher Barrie
-format: revealjs
+format:
+  revealjs:
+    chalkboard: true
 editor: visual
 ---
 

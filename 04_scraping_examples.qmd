@@ -2,7 +2,9 @@
 title: "Web scraping"
 subtitle: "SICSS, 2022"
 author: Christopher Barrie
-format: revealjs
+format:
+  revealjs:
+    chalkboard: true
 editor: visual
 ---
 
@@ -21,7 +23,7 @@ editor: visual
 
 ![](images/auditnhb.png)
 
-- **Data and code** [https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4](https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4)
+-   **Data and code** <https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4>
 
 ## Examples
 
@@ -29,5 +31,5 @@ editor: visual
 
 ## Group work
 
-1. Come up with a question answerable using scraped data
-2. Detail the data you would collect
+1.  Come up with a question answerable using scraped data
+2.  Detail the data you would collect

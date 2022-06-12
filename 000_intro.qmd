@@ -2,7 +2,9 @@
 title: "Introduction"
 subtitle: "SICSS, 2022"
 author: Christopher Barrie
-format: revealjs
+format:
+  revealjs:
+    chalkboard: true
 editor: visual
 ---
 
@@ -152,10 +154,207 @@ What is digital trace data?
 What does it look like?
 
 ::: {#fig-salganik}
-
 ![](images/readymade.png){fig-align="center"}
 
 Salganik, Matthew. 2018. Bit by Bit: Social Research in the Digital Age. Princeton: Princeton University Press. p.7.
 :::
 
 ## Examples
+
+```{r, echo=T, eval = F}
+[{'text': 'hello freak [ __ ] I would love to play',
+  'start': 0.439,
+  'duration': 5.351},
+ {'text': 'you the dinosaurs are not real video',
+  'start': 3.72,
+  'duration': 4.82},
+ {'text': 'just do it God', 'start': 5.79, 'duration': 5.25},
+ {'text': "we probably can't play it on YouTube",
+  'start': 8.54,
+  'duration': 3.76},
+ {'text': "where we'll get pulled but we could play",
+  'start': 11.04,
+  'duration': 4.44},
+ {'text': 'the audio right play the I will put the',
+  'start': 12.3,
+  'duration': 4.59},
+ {'text': 'video up on the screen and play the',
+  'start': 15.48,
+  'duration': 3.389},
+ {'text': 'audio for you and you could just [ __ ] it',
+  'start': 16.89,
+  'duration': 4.29},
+ {'text': 'your head could turn beet red smokes',
+  'start': 18.869,
+  'duration': 4.381},
+```
+
+## Examples
+
+![](images/ahram.png){fig-align="center"}
+
+## Examples
+
+```{r, eval = F, echo=T}
+<publicwhip scraperversion="b" latest="yes">
+  <oral-heading id="uk.org.publicwhip/debate/2017-01-09b.1.0" nospeaker="true" colnum="1" time="" url="">Oral
+Answers to
+Questions</oral-heading>
+  <major-heading id="uk.org.publicwhip/debate/2017-01-09b.1.1" nospeaker="true" colnum="1" time="" url="">
+WORK AND PENSIONS
+</major-heading>
+  <speech id="uk.org.publicwhip/debate/2017-01-09b.1.2" nospeaker="true" colnum="1" time="" url="">
+    <p pid="b1.2/1">The Secretary of State was asked—</p>
+  </speech>
+  <speech id="uk.org.publicwhip/debate/2017-01-09b.1.3" speakername="John Bercow" person_id="uk.org.publicwhip/person/10040" colnum="1" time="" url="">
+    <p pid="b1.3/1">I call Mr Gerald Jones. Where is the fella? He is not here.</p>
+  </speech>
+  <minor-heading id="uk.org.publicwhip/debate/2017-01-09b.1.4" nospeaker="true" colnum="1" time="" url="">
+Self-employment
+</minor-heading>
+  <speech id="uk.org.publicwhip/debate/2017-01-09b.1.5" person_id="uk.org.publicwhip/person/25309" speakername="Peter Dowd" oral-qnum="2" colnum="1" time="" url="">
+    <p pid="b1.5/1" qnum="908056">What recent assessment he has made of trends in the level of self-employment. </p>
+```
+
+## Applied examples
+
+::: {#fig-example1}
+![](images/twitterscience.png){fig-align="center"}
+
+<https://advances.sciencemag.org/content/7/29/eabe6534/tab-article-info>
+:::
+
+## Applied examples
+
+::: {#fig-example2}
+![](images/parler.png){fig-align="center"}
+
+<https://arxiv.org/abs/2101.03820>
+:::
+
+## Applied examples
+
+::: {#fig-example3}
+![](images/YTLai.png){fig-align="center"}
+
+<https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4088828>
+:::
+
+## Applied examples
+
+::: {#fig-example4}
+![](images/cdrs.png){fig-align="center"}
+
+<https://www.science.org/doi/10.1126/science.aac4420>
+:::
+
+## Applied examples
+
+::: {#fig-example5}
+![](images/dawidowitz.png){fig-align="center"}
+
+<https://www.sciencedirect.com/science/article/pii/S0047272714000929>
+:::
+
+## Applied examples
+
+::: {#fig-example6}
+![](images/marwick.png){fig-align="center"}
+
+<https://journals.sagepub.com/doi/abs/10.1177/1461444810365313>
+:::
+
+## Isn't this all just a fad?
+
+No
+
+## Next question?
+
+## But seriously...
+
+-   Ubiquity
+-   Diversity
+-   Complementarity
+
+## But seriously...
+
+-   Ubiquity
+    -   Digital trace data is everywhere and "always on"
+
+## But seriously...
+
+-   Diversity
+    -   of methods and data sources means no-brainer to use
+
+## But seriously...
+
+-   Complementarity
+    -   of data and methods means enrichment (of the old) not substitution (by the new)
+
+## Isn't it all just \[stats./quant./data science\]?
+
+-   In some ways: yeah...
+
+## Isn't it all just \[stats./quant./data science\]?
+
+::: {#fig-example7}
+![](images/tukey.png){fig-align="center"}
+
+<https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-33/issue-1/The-Future-of-Data-Analysis/10.1214/aoms/1177704711.full>
+:::
+
+## Isn't it all just \[stats./quant./data science\]?
+
+-   In some ways: yeah...
+
+-   In other ways: well, no...
+
+    -   New types of data
+
+        -   e.g., unstructured and trace data
+        -   associated decisions re how to restructure (compare: surveys)
+
+## Isn't it all just \[stats./quant./data science\]?
+
+-   In other ways: well, no...
+
+    -   New emphasis
+
+        -   e.g., learning from data and prediction
+
+## Isn't it all just \[stats./quant./data science\]?
+
+-   In other ways: well, no...
+
+    -   New theory
+
+        -   e.g., human-computer interaction
+
+## Isn't it all just \[stats./quant./data science\]?
+
+-   In other ways: well, no...
+
+    -   New ethical dilemmas...
+
+## Ethics
+
+-   respect for persons
+-   beneficence
+-   justice
+-   respect for law
+-   public interest
+
+1.  <https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/index.html>
+
+2.  <https://www.dhs.gov/sites/default/files/publications/CSD-MenloPrinciplesCORE-20120803_1.pdf>
+
+3.  <https://aoir.org/reports/ethics3.pdf>
+
+## Ethics
+
+-   consequentialism
+-   deontology
+
+## Case studies
+
+
