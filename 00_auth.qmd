@@ -127,6 +127,23 @@ params
 
 ```
 
+## What is it made of?
+
+```{r, echo = T, eval = F}
+
+r <- httr::GET(url = endpoint_url,
+               httr::add_headers(
+                 Authorization = paste0("bearer ", Sys.getenv("TWITTER_BEARER"))),
+               query = params)
+
+r[["url"]]
+
+```
+
+```
+[1] "https://api.twitter.com/2/tweets/search/all?query=%23BLM%20lang%3AEN&start_time=2021-01-01T00%3A00%3A00Z&end_time=2021-07-31T23%3A59%3A59Z&max_results=20"
+```
+
 ## But we don't often do this...
 
 -   Pre-packaged libraries more common

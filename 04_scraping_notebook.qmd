@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-# Using APIs and web scraping
+# Web scraping notebook
 
 In this worksheet, I introduce you to how we might gather data through screen-scraping (or server-side) techniques; the second worksheet will go through an example of how we use API (or client-side) techniques for gathering data.
 

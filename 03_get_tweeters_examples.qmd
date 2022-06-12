@@ -63,38 +63,3 @@ editor: visual
 2.  Formulate code needed to request that data
 3.  (If access granted) make the API call to get data
 4.  Consider limitations + design considerations
-
-## Other innovations
-
--   Twitter as experimental platform
-    -   Twitter as confederate
-
-        -   Uses: automated bot + randomization strategy
-
-## Other innovations
-
--   Twitter as experimental platform
-    -   Twitter as confederate
-
-        -   Uses: automated bot + randomization strategy
-
-![](images/munger.png)
-
-## Other innovations
-
-![](images/munger2.png)
-
-## Other innovations
-
--   Twitter alongside survey
-    -   "Linked survey designs"
-
-        -   Uses: Twitter feed + survey questionnaire
-
-## Other innovations
-
-![](images/eady.png)
-
-## Other innovations
-
-![](images/eady2.png)

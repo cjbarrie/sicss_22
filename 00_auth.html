@@ -539,6 +539,18 @@ $max_results
 </div>
 </div>
 </section>
+<section id="what-is-it-made-of-3" class="slide level2">
+<h2>What is it made of?</h2>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>r <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> endpoint_url,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>               httr<span class="sc">::</span><span class="fu">add_headers</span>(</span>
+<span id="cb5-3"><a href="#cb5-3"></a>                 <span class="at">Authorization =</span> <span class="fu">paste0</span>(<span class="st">"bearer "</span>, <span class="fu">Sys.getenv</span>(<span class="st">"TWITTER_BEARER"</span>))),</span>
+<span id="cb5-4"><a href="#cb5-4"></a>               <span class="at">query =</span> params)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a>r[[<span class="st">"url"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[1] "https://api.twitter.com/2/tweets/search/all?query=%23BLM%20lang%3AEN&amp;start_time=2021-01-01T00%3A00%3A00Z&amp;end_time=2021-07-31T23%3A59%3A59Z&amp;max_results=20"</code></pre>
+</section>
 <section id="but-we-dont-often-do-this" class="slide level2">
 <h2>But we don’t often do this…</h2>
 <ul>
