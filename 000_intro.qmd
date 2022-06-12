@@ -336,13 +336,57 @@ No
 
     -   New ethical dilemmas...
 
+## Case studies
+
+![](images/barriefrey.png){fig-align="center"}
+
+## Case studies
+
+![](images/geolocwm2.png){fig-align="center"}
+
+## Case studies
+
+![](images/gdists.png){fig-align="center"}
+
+## What is at stake?
+
+-   Go to chalkboard
+
+## Case studies
+
+![](images/nytparlertitle.png){fig-align="center"}
+
+## Case studies
+
+![](images/nytparler.gif){fig-align="center"}
+
+## Ethics
+
+-   consequentialism
+-   deontology
+
+## How do we decide?
+
+-   IRB (rules-based)
+-   ethical judgment (principles-based)
+
+...
+
+-   and we do this *openly* (transparency-based accountability)
+
 ## Ethics
 
 -   respect for persons
 -   beneficence
 -   justice
--   respect for law
--   public interest
+-   respect for law and public interest
+
+## Ethics
+
+-   respect for persons (Belmont)
+-   beneficence (Belmont)
+-   justice (Belmont)
+-   respect for law and public interest (Menlo)
 
 1.  <https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/index.html>
 
@@ -352,9 +396,41 @@ No
 
 ## Ethics
 
--   consequentialism
--   deontology
+-   respect for persons
+    -   participants decide--not you (informed consent)
 
-## Case studies
+## Ethics
 
+-   beneficence
+    -   minimize risk and maximiize benefits to decide if worth it
 
+    -   N.B. third-party oversight (because researcher bias)
+
+## Ethics
+
+-   justice
+
+    -   distribution of benefits and burdens of research
+
+        -   vulnerable individuals; global South as lab
+
+## Ethics
+
+-   respect for law and public interest
+
+    -   compliance (TOS and general law...)
+        -   N.B. difficulties with cross-national research
+    -   be open about what you're doing (transparency-based accountability)
+
+## Group work
+
+-   Split into five groups
+-   Each of you assigned one reading
+    -   <https://www.pnas.org/doi/10.1073/pnas.1320040111>
+
+    -   [https://www.dropbox.com/s/883j32og8zcx0ew/Mexico%20Saturation%20Intervention%20v12.pdf?dl=0 ](https://www.dropbox.com/s/883j32og8zcx0ew/Mexico%20Saturation%20Intervention%20v12.pdf?dl=0 )
+-   Think about the study as it relates to: respect for persons; beneficence; justice; respect for law and public interest
+
+## What is at stake?
+
+-   Go to chalkboard
