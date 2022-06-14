@@ -53,7 +53,7 @@
 
 ## Computational Methods
 
-- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/.pdf)
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/ross.pdf)
 
 ## Digital Qualitative Methods
 
