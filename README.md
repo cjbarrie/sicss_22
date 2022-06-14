@@ -54,3 +54,4 @@
 ## Digital Qualitative Methods
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gregory.pdf)
+- Exercise: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gregory_ex.pdf)
