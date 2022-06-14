@@ -65,3 +65,4 @@
 ## Network research
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gunten.pdf)
+- Materials: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_materials/gunten/)
