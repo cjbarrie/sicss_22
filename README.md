@@ -6,6 +6,8 @@
 
 ![Alt Text](coursebanner.png)
 
+# Day 1
+
 ## General Intro., Ethics, and CSS
 
 -   Intro. slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/000_intro.html)
@@ -46,6 +48,8 @@
 ## Speaker slides
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/speaker_slides/scarton.pdf)
+
+# Day 2
 
 ## Digital Qualitative Methods
 
