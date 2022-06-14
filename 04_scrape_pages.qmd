@@ -73,4 +73,8 @@ for (i in seq_along(urlpages_all)) {
 
 ## It's not always that easy...
 
+::: {#fig-gessler}
 ![](images/gesslerscraping.png){fig-align="center"}
+
+<http://theresagessler.eu/eui_cta/slides/session5_plus.pdf>
+:::

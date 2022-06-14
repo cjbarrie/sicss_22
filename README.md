@@ -51,6 +51,10 @@
 
 # Day 2
 
+## Computational Methods
+
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/.pdf)
+
 ## Digital Qualitative Methods
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gregory.pdf)
