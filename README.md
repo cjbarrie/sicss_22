@@ -41,3 +41,12 @@
 -   Code slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/04_scrape_pages.html)
 -   Notebook: [here](https://raw.githack.com/cjbarrie/sicss_22/main/04_scraping_notebook.html)
 -   Script(s): [here](https://github.com/cjbarrie/sicss_22/blob/main/04_scraping.R)
+
+
+## Speaker slides
+
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/speaker_slides/scarton.pdf)
+
+## Digital Qualitative Methods
+
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gregory.pdf)
