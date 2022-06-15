@@ -294,3 +294,162 @@ library(umap) # for dimensionality reduction later on
 We then need to set some of the choice parameters of the GloVe model. The first is the window size `WINDOW_SIZE`, which, as above, is arbitrary but normally set around 6-8. This means we are looking for word context of words up to 6 words around the target word. The image below illustrates this choice parameter for the word "cat" in a given sentence, with increase context window size:
 
 ![Context window](data/window.png){width=50%}
+
+And this will ultimately be understood in matrix format as:
+
+![Context window](data/matrix_context.png){width=50%}
+
+The iterations parameter `ITERS` simply sets the maximum number of iterations to allow for model convergence. This number of iterations is relatively high and the model will likely converge before 100 iterations. 
+
+The `DIM` parameter specifies the length of the word vector we want to result (i.e., just as we set a limit of 256 for the SVD approach above). Finally, `COUNT_MIN` is specifying the minimum count of words that we want to keep. In other words, if a word appears fewer than ten times, it is discarded. Again, this is the same as above where we discarded word pairings that appeared fewer than twenty times.
+
+```{r, eval = F}
+# ================================ choice parameters
+# ================================
+WINDOW_SIZE <- 6
+DIM <- 300
+ITERS <- 100
+COUNT_MIN <- 10
+
+```
+
+We next "shuffle" our text. This just means we are randomly reordering the character vector of tweets. 
+
+```{r, eval = F}
+# shuffle text
+set.seed(42L)
+text <- sample(twts_sample$tweet)
+
+```
+
+We then create a list object, tokenizing the text of each tweet within each item of the list. After this, we create the vocabulary object needed to implement the GloVe algorithm. We do this by creating an "itoken" object with `itoken()` and then creating a vocabulary with `create_vocabulary`. We then remove words that do not exceed our specified threshold above with `prune_vocabulary()`. 
+
+```{r, eval = F}
+# ================================ create vocab ================================
+tokens <- space_tokenizer(text)
+it <- itoken(tokens, progressbar = FALSE)
+vocab <- create_vocabulary(it)
+vocab_pruned <- prune_vocabulary(vocab, term_count_min = COUNT_MIN)  # keep only words that meet count threshold
+
+```
+
+Next up we vectorize our vocabulary and create our term co-occurrence matrix. Again, this is similar to the above where we created a matrix of PMIs for each of the word pairings in our corpus. 
+
+```{r, eval = F}
+# ================================ create term co-occurrence matrix
+# ================================
+vectorizer <- vocab_vectorizer(vocab_pruned)
+tcm <- create_tcm(it, vectorizer, skip_grams_window = WINDOW_SIZE, skip_grams_window_context = "symmetric", 
+    weights = rep(1, WINDOW_SIZE))
+
+```
+
+Then we set our final model parameters, learning rate and fit the model. This whole process will take some time. To save time when working through this tutorial, you may also download the resulting embedding from the Github repo linked a little further below.
+
+
+```{r, eval = F}
+# ================================ set model parameters
+# ================================
+glove <- GlobalVectors$new(rank = DIM, x_max = 100, learning_rate = 0.05)
+
+# ================================ fit model ================================
+word_vectors_main <- glove$fit_transform(tcm, n_iter = ITERS, convergence_tol = 0.001, 
+    n_threads = RcppParallel::defaultNumThreads())
+
+
+```
+
+Finally, we get the resulting word embedding and save it as a .rds file.
+
+```{r, eval=FALSE}
+# ================================ get output ================================
+word_vectors_context <- glove$components
+glove_embedding <- word_vectors_main + t(word_vectors_context)  # word vectors
+
+# ================================ save ================================
+saveRDS(glove_embedding, file = "local_glove.rds")
+
+```
+
+**To save time when working through this tutorial, you may also download the resulting embedding from the Github repo with**:
+
+```{r, eval = F}
+
+url <- "https://github.com/cjbarrie/CTA-ED/blob/main/data/wordembed/local_glove.rds?raw=true"
+glove_embedding <- readRDS(url(url, method="libcurl"))
+
+```
+
+## Visualization
+
+```{r, echo = F}
+
+glove_embedding <- readRDS("data/local_glove.rds")
+```
+
+How do we explore these embeddings? Well, imagine that our embeddings will look something not dissimilar to this visualization of another embedding [here](https://anvaka.github.io/pm/#/galaxy/word2vec-wiki?cx=-17&cy=-237&cz=-613&lx=-0.0575&ly=-0.9661&lz=-0.2401&lw=-0.0756&ml=300&s=1.75&l=1&v=d50_clean). In other words, we are talking about something that doesn't lend itself to projection in 2D space!
+
+But...
+
+All hope is not lost, space travellers. A smart technique by @mcinnes_umap_2020 linked [here](https://arxiv.org/abs/1802.03426) describes a way to reduce the dimensionality of such embedding layers using what is called "Uniform Manifold Approximation and Projection." How do we do this? Well, happily, with the <tt>umap</tt> package it is pretty straightforward!
+
+```{r, eval = F}
+
+# GloVe dimension reduction
+glove_umap <- umap(glove_embedding, n_components = 2, metric = "cosine", n_neighbors = 25, min_dist = 0.1, spread=2)
+
+```
+
+```{r, echo=F}
+
+load("data/glove_umap.RData")
+
+```
+
+Why is this helpful? Well, for a number of reasons, but it is particularly helpful here for visualizing our embeddings in two-dimensional space. 
+
+```{r}
+
+# Put results in a dataframe for ggplot
+df_glove_umap <- as.data.frame(glove_umap[["layout"]])
+
+# Add the labels of the words to the dataframe
+df_glove_umap$word <- rownames(df_glove_umap)
+colnames(df_glove_umap) <- c("UMAP1", "UMAP2", "word")
+
+# Plot the UMAP dimensions
+ggplot(df_glove_umap) +
+  geom_point(aes(x = UMAP1, y = UMAP2), colour = 'blue', size = 0.05) +
+  ggplot2::annotate("rect", xmin = -3, xmax = -2, ymin = 5, ymax = 7,alpha = .2) +
+  labs(title = "GloVe word embedding in 2D using UMAP")
+
+# Plot the shaded part of the GloVe word embedding with labels
+ggplot(df_glove_umap[df_glove_umap$UMAP1 < -2.5 & df_glove_umap$UMAP1 > -3 & df_glove_umap$UMAP2 > 5 & df_glove_umap$UMAP2 < 6.5,]) +
+      geom_point(aes(x = UMAP1, y = UMAP2), colour = 'blue', size = 2) +
+      geom_text(aes(UMAP1, UMAP2, label = word), size = 2.5, vjust=-1, hjust=0) +
+      labs(title = "GloVe word embedding in 2D using UMAP - partial view") +
+      theme(plot.title = element_text(hjust = .5, size = 14))
+
+
+# Plot the word embedding of words that are related for the GloVe model
+word <- glove_embedding["economy",, drop = FALSE]
+cos_sim = sim2(x = glove_embedding, y = word, method = "cosine", norm = "l2")
+select <- data.frame(rownames(as.data.frame(head(sort(cos_sim[,1], decreasing = TRUE), 25))))
+colnames(select) <- "word"
+selected_words <- df_glove_umap %>% inner_join(y=select, by= "word", match = "all") 
+
+#The ggplot visual for GloVe
+ggplot(selected_words, aes(x = UMAP1, y = UMAP2)) + 
+      geom_point(show.legend = FALSE) + 
+      geom_text(aes(UMAP1, UMAP2, label = word), show.legend = FALSE, size = 2.5, vjust=-1.5, hjust=0) +
+      labs(title = "GloVe word embedding of words related to 'economy'") +
+      theme(plot.title = element_text(hjust = .5, size = 14))
+```
+
+
+We can see, here, then that our embeddings seem to make sense. We zoomed in first on that little outgrowth of our 2D mapping, which seemed to correspond to numbers and number words. Then we looked at words around "economy" and we see other related terms like "growth" and "jobs."
+
+## Exercises
+
+1. Inspect and visualize the nearest neighbour synonyms of other relevant words in the tweets corpus
+2. Identify another region of interest in the GloVe-trained model and visualize

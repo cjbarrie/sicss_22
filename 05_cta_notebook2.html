@@ -430,6 +430,136 @@ f(X_{ij}) =
 <p></p><figcaption aria-hidden="true" class="figure-caption">Context window</figcaption><p></p>
 </figure>
 </div>
+<p>And this will ultimately be understood in matrix format as:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/matrix_context.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Context window</figcaption><p></p>
+</figure>
+</div>
+<p>The iterations parameter <code>ITERS</code> simply sets the maximum number of iterations to allow for model convergence. This number of iterations is relatively high and the model will likely converge before 100 iterations.</p>
+<p>The <code>DIM</code> parameter specifies the length of the word vector we want to result (i.e., just as we set a limit of 256 for the SVD approach above). Finally, <code>COUNT_MIN</code> is specifying the minimum count of words that we want to keep. In other words, if a word appears fewer than ten times, it is discarded. Again, this is the same as above where we discarded word pairings that appeared fewer than twenty times.</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ choice parameters</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>WINDOW_SIZE <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>DIM <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>ITERS <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>COUNT_MIN <span class="ot">&lt;-</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We next “shuffle” our text. This just means we are randomly reordering the character vector of tweets.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shuffle text</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(42L)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="fu">sample</span>(twts_sample<span class="sc">$</span>tweet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then create a list object, tokenizing the text of each tweet within each item of the list. After this, we create the vocabulary object needed to implement the GloVe algorithm. We do this by creating an “itoken” object with <code>itoken()</code> and then creating a vocabulary with <code>create_vocabulary</code>. We then remove words that do not exceed our specified threshold above with <code>prune_vocabulary()</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ create vocab ================================</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tokens <span class="ot">&lt;-</span> <span class="fu">space_tokenizer</span>(text)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>it <span class="ot">&lt;-</span> <span class="fu">itoken</span>(tokens, <span class="at">progressbar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>vocab <span class="ot">&lt;-</span> <span class="fu">create_vocabulary</span>(it)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>vocab_pruned <span class="ot">&lt;-</span> <span class="fu">prune_vocabulary</span>(vocab, <span class="at">term_count_min =</span> COUNT_MIN)  <span class="co"># keep only words that meet count threshold</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next up we vectorize our vocabulary and create our term co-occurrence matrix. Again, this is similar to the above where we created a matrix of PMIs for each of the word pairings in our corpus.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ create term co-occurrence matrix</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="ot">&lt;-</span> <span class="fu">vocab_vectorizer</span>(vocab_pruned)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>tcm <span class="ot">&lt;-</span> <span class="fu">create_tcm</span>(it, vectorizer, <span class="at">skip_grams_window =</span> WINDOW_SIZE, <span class="at">skip_grams_window_context =</span> <span class="st">"symmetric"</span>, </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">weights =</span> <span class="fu">rep</span>(<span class="dv">1</span>, WINDOW_SIZE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we set our final model parameters, learning rate and fit the model. This whole process will take some time. To save time when working through this tutorial, you may also download the resulting embedding from the Github repo linked a little further below.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ set model parameters</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>glove <span class="ot">&lt;-</span> GlobalVectors<span class="sc">$</span><span class="fu">new</span>(<span class="at">rank =</span> DIM, <span class="at">x_max =</span> <span class="dv">100</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ fit model ================================</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>word_vectors_main <span class="ot">&lt;-</span> glove<span class="sc">$</span><span class="fu">fit_transform</span>(tcm, <span class="at">n_iter =</span> ITERS, <span class="at">convergence_tol =</span> <span class="fl">0.001</span>, </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_threads =</span> RcppParallel<span class="sc">::</span><span class="fu">defaultNumThreads</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, we get the resulting word embedding and save it as a .rds file.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ get output ================================</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>word_vectors_context <span class="ot">&lt;-</span> glove<span class="sc">$</span>components</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>glove_embedding <span class="ot">&lt;-</span> word_vectors_main <span class="sc">+</span> <span class="fu">t</span>(word_vectors_context)  <span class="co"># word vectors</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================ save ================================</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(glove_embedding, <span class="at">file =</span> <span class="st">"local_glove.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>To save time when working through this tutorial, you may also download the resulting embedding from the Github repo with</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://github.com/cjbarrie/CTA-ED/blob/main/data/wordembed/local_glove.rds?raw=true"</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>glove_embedding <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(url, <span class="at">method=</span><span class="st">"libcurl"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualization" class="level2">
+<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
+<div class="cell">
+
+</div>
+<p>How do we explore these embeddings? Well, imagine that our embeddings will look something not dissimilar to this visualization of another embedding <a href="https://anvaka.github.io/pm/#/galaxy/word2vec-wiki?cx=-17&amp;cy=-237&amp;cz=-613&amp;lx=-0.0575&amp;ly=-0.9661&amp;lz=-0.2401&amp;lw=-0.0756&amp;ml=300&amp;s=1.75&amp;l=1&amp;v=d50_clean">here</a>. In other words, we are talking about something that doesn’t lend itself to projection in 2D space!</p>
+<p>But…</p>
+<p>All hope is not lost, space travellers. A smart technique by <span class="citation" data-cites="mcinnes_umap_2020">@mcinnes_umap_2020</span> linked <a href="https://arxiv.org/abs/1802.03426">here</a> describes a way to reduce the dimensionality of such embedding layers using what is called “Uniform Manifold Approximation and Projection.” How do we do this? Well, happily, with the <tt>umap</tt> package it is pretty straightforward!</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GloVe dimension reduction</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>glove_umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(glove_embedding, <span class="at">n_components =</span> <span class="dv">2</span>, <span class="at">metric =</span> <span class="st">"cosine"</span>, <span class="at">n_neighbors =</span> <span class="dv">25</span>, <span class="at">min_dist =</span> <span class="fl">0.1</span>, <span class="at">spread=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<p>Why is this helpful? Well, for a number of reasons, but it is particularly helpful here for visualizing our embeddings in two-dimensional space.</p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put results in a dataframe for ggplot</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df_glove_umap <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(glove_umap[[<span class="st">"layout"</span>]])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the labels of the words to the dataframe</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>df_glove_umap<span class="sc">$</span>word <span class="ot">&lt;-</span> <span class="fu">rownames</span>(df_glove_umap)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_glove_umap) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"UMAP1"</span>, <span class="st">"UMAP2"</span>, <span class="st">"word"</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the UMAP dimensions</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_glove_umap) <span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2), <span class="at">colour =</span> <span class="st">'blue'</span>, <span class="at">size =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">xmax =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">ymin =</span> <span class="dv">5</span>, <span class="at">ymax =</span> <span class="dv">7</span>,<span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"GloVe word embedding in 2D using UMAP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="05_cta_notebook2_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the shaded part of the GloVe word embedding with labels</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_glove_umap[df_glove_umap<span class="sc">$</span>UMAP1 <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">2.5</span> <span class="sc">&amp;</span> df_glove_umap<span class="sc">$</span>UMAP1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">3</span> <span class="sc">&amp;</span> df_glove_umap<span class="sc">$</span>UMAP2 <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> df_glove_umap<span class="sc">$</span>UMAP2 <span class="sc">&lt;</span> <span class="fl">6.5</span>,]) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2), <span class="at">colour =</span> <span class="st">'blue'</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(<span class="fu">aes</span>(UMAP1, UMAP2, <span class="at">label =</span> word), <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">vjust=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"GloVe word embedding in 2D using UMAP - partial view"</span>) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="05_cta_notebook2_files/figure-html/unnamed-chunk-50-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the word embedding of words that are related for the GloVe model</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>word <span class="ot">&lt;-</span> glove_embedding[<span class="st">"economy"</span>,, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>cos_sim <span class="ot">=</span> <span class="fu">sim2</span>(<span class="at">x =</span> glove_embedding, <span class="at">y =</span> word, <span class="at">method =</span> <span class="st">"cosine"</span>, <span class="at">norm =</span> <span class="st">"l2"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>select <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rownames</span>(<span class="fu">as.data.frame</span>(<span class="fu">head</span>(<span class="fu">sort</span>(cos_sim[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">25</span>))))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(select) <span class="ot">&lt;-</span> <span class="st">"word"</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>selected_words <span class="ot">&lt;-</span> df_glove_umap <span class="sc">%&gt;%</span> <span class="fu">inner_join</span>(<span class="at">y=</span>select, <span class="at">by=</span> <span class="st">"word"</span>, <span class="at">match =</span> <span class="st">"all"</span>) </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co">#The ggplot visual for GloVe</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(selected_words, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span> </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(<span class="fu">aes</span>(UMAP1, UMAP2, <span class="at">label =</span> word), <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">vjust=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">hjust=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"GloVe word embedding of words related to 'economy'"</span>) <span class="sc">+</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="05_cta_notebook2_files/figure-html/unnamed-chunk-50-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see, here, then that our embeddings seem to make sense. We zoomed in first on that little outgrowth of our 2D mapping, which seemed to correspond to numbers and number words. Then we looked at words around “economy” and we see other related terms like “growth” and “jobs.”</p>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<ol type="1">
+<li>Inspect and visualize the nearest neighbour synonyms of other relevant words in the tweets corpus</li>
+<li>Identify another region of interest in the GloVe-trained model and visualize</li>
+</ol>
 
 </section>
 </section>
