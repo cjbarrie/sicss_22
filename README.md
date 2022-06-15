@@ -73,9 +73,9 @@
 
 - Slides: [here](https://docs.google.com/presentation/d/e/2PACX-1vQtIyFyGG7dc_DLuNy3iI9wEmGyZfRG8qChHr56c6Bd5kWO3RRskidCslBfJBy3-RS5D3tFR_CTa7Bi/pub?start=true&loop=false&delayms=3000)
 
--   Code slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta.html)
--   Notebook 1: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta_notebook1.html)
--   Notebook 2: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta_notebook2.html)
+- Code slides: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta.html)
+- Notebook 1: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta_notebook1.html)
+- Notebook 2: [here](https://raw.githack.com/cjbarrie/sicss_22/main/05_cta_notebook2.html)
 
 
 
