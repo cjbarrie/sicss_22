@@ -20,23 +20,6 @@ library(ggthemes) #to make plots nicer
 library(stringi) #to generate random text
 ```
 
-## Tokenizing
-
-```{r, eval = T, echo = T}
-lipsum_text <- data.frame(text = stri_rand_lipsum(1, start_lipsum = TRUE))
-
-head(lipsum_text$text)
-```
-
-## Tokenizing
-
-```{r, eval = T, echo = T}
-tokens <- lipsum_text %>%
-  unnest_tokens(word, text)
-
-head(tokens)
-```
-
 ## Topic modelling
 
 ```{r, eval = T, echo = T}
@@ -128,5 +111,102 @@ betaplot <- lda_beta %>%
 ```{r, eval = T, echo = F}
 betaplot
 ```
-
 :::
+
+## Word embedding
+
+```{r, eval = T, echo = F}
+library(Matrix) #for handling matrices
+library(tidyverse)
+library(irlba) # for SVD
+library(umap) # for dimensionality reduction
+
+load("data/pmi_svd.RData")
+load("data/pmi_matrix.RData")
+```
+
+```{r, eval = F, echo = T}
+library(Matrix) #for handling matrices
+library(tidyverse)
+library(irlba) # for SVD
+library(umap) # for dimensionality reduction
+```
+
+## Data structure
+
+-   Word pair matrix with PMI (Pairwise mutual information)
+
+-   where PMI = log(P(x,y)/P(x)P(y))
+
+-   and P(x,y) is the probability of word x appearing within a six-word window of word y
+
+-   and P(x) is the probability of word x appearing in the whole corpus
+
+-   and P(y) is the probability of word y appearing in the whole corpus
+
+## Data structure
+
+```{r ,echo=F}
+
+head(pmi_matrix[1:6, 1:6])
+
+```
+
+## Data structure
+
+```{r ,echo=F}
+
+glimpse(pmi_matrix)
+
+```
+
+## Singular value decomposition
+
+```{r ,echo=F, eval = F}
+
+pmi_svd <- irlba(pmi_matrix, 256, maxit = 500)
+
+```
+
+## Singular value decomposition
+
+```{r ,echo=F, eval = F}
+
+pmi_svd <- irlba(pmi_matrix, 256, maxit = 500)
+
+```
+
+## Singular value decomposition
+
+```{r ,echo=T, eval = T}
+
+word_vectors <- pmi_svd$u
+rownames(word_vectors) <- rownames(pmi_matrix)
+dim(word_vectors)
+
+```
+
+## Singular value decomposition
+
+```{r ,echo=T, eval = T}
+
+head(word_vectors[1:5, 1:5])
+```
+
+
+## Word embeddings with GloVe
+
+After we've generated our term co-ocurrence matrix...
+
+```{r, eval = F, echo = T}
+
+DIM <- 300
+ITERS <- 100
+# ================================ set model parameters
+# ================================
+glove <- GlobalVectors$new(rank = DIM, x_max = 100, learning_rate = 0.05)
+
+# ================================ fit model ================================
+word_vectors_main <- glove$fit_transform(tcm, n_iter = ITERS, convergence_tol = 0.001, 
+    n_threads = RcppParallel::defaultNumThreads())
+```

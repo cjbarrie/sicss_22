@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.165">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Word embedding</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="05_cta_notebook2_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="05_cta_notebook2_files/libs/quarto-html/quarto.js"></script>
+  <script src="05_cta_notebook2_files/libs/quarto-html/popper.min.js"></script>
+  <script src="05_cta_notebook2_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="05_cta_notebook2_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="05_cta_notebook2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="05_cta_notebook2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="05_cta_notebook2_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="05_cta_notebook2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="05_cta_notebook2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title display-7">Word embedding</h1><p class="subtitle lead">SICSS, 2022</p></div></header>
+<section id="word-embedding-notebook" class="level1">
+<h1>Word embedding notebook</h1>
+<p>This hands-on exercise focuses on word embedding and provides an overview of the data structures, and functions relevant for, estimating word vectors for word-embedding analyses.</p>
+<p>In this tutorial, you will learn how to:</p>
+<ul>
+<li>Generate word vectors (embeddings) via SVD</li>
+<li>Train a local word embedding model in GloVe</li>
+<li>Visualize and inspect results</li>
+<li>Load and examine pre-trained embeddings</li>
+</ul>
+<p>Note: Adapts from tutorials by Chris Bail <a href="https://cbail.github.io/textasdata/word2vec/rmarkdown/word2vec.html">here</a> and Julia Silge <a href="https://juliasilge.com/blog/tidy-word-vectors/">here</a> and Emil Hvitfeldt and Julia Silge <a href="https://smltar.com/">here</a>.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># loads dplyr, ggplot2, and others</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr) <span class="co"># to handle text elements</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co"># includes set of functions useful for manipulating text</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes) <span class="co"># to make your plots look nice</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(text2vec) <span class="co"># for word embedding implementation</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(widyr) <span class="co"># for reshaping the text data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(irlba) <span class="co"># for svd</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(umap) <span class="co"># for dimensionality reduction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We begin by reading in the data. These data come from a sample of 1m tweets by elected UK MPs over the period 2017-2019. The data contain just the name of the MP-user, the text of the tweet, and the MP’s party. We then just add an ID variable called “postID.”</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>twts_sample <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/twts_corpus_sample.rds"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#create tweet id</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>twts_sample<span class="sc">$</span>postID <span class="ot">&lt;-</span> <span class="fu">row.names</span>(twts_sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you’re working on this document from your own computer (“locally”) you can download the tweets sample data in the following way:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>twts_sample <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">gzcon</span>(<span class="fu">url</span>(<span class="st">"https://github.com/cjbarrie/CTA-ED/blob/main/data/wordembed/twts_corpus_sample.rds?raw=true"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="word-vectors-via-svd" class="level2">
+<h2 class="anchored" data-anchor-id="word-vectors-via-svd">Word vectors via SVD</h2>
+<p>We’re going to set about generating a set of word vectors with from our text data. Note that many word embedding applications will use pre-trained embeddings from a much larger corpus, or will generate local embeddings using neural net-based approaches.</p>
+<p>Here, we’re instead going to generate a set of embeddings or word vectors by making a series of calculations based on the frequencies with which words appear in different contexts. We will then use a technique called the “Singular Value Decomposition” (SVD). This is a dimensionality reduction technique where the first axis of the resulting composition is designed to capture the most variance, the second the second-most etc…</p>
+<p>How do we achieve this?</p>
+</section>
+<section id="implementation" class="level2">
+<h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
+<p>The first thing we need to do is to get our data in the right format to calculate so-called “skip-gram probabilties.” If you go through the code line by the line in the below you will begin to understand what these are.</p>
+<p>What’s going on?</p>
+<p>Well, we’re first unnesting our tweet data as in previous exercises. But importantly, here, we’re not unnesting to individual tokens but to ngrams of length 6 or, in other words, for postID n with words k indexed by i, we take words i<sub>1</sub> …i<sub>6</sub>, then we take words i<sub>2</sub> …i<sub>7</sub>. Try just running the first two lines of the code below to see what this means in practice.</p>
+<p>After this, we make a unique ID for the particular ngram we create for each postID, and then we make a unique skipgramID for each postID and ngram. And then we unnest the words of each ngram associated with each skipgramID.</p>
+<p>You can see the resulting output below.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create context window with length 6</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tidy_skipgrams <span class="ot">&lt;-</span> twts_sample <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(ngram, tweet, <span class="at">token =</span> <span class="st">"ngrams"</span>, <span class="at">n =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ngramID =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">unite</span>(skipgramID, postID, ngramID) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, ngram)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tidy_skipgrams, <span class="at">n=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code># A tibble: 20 × 4
+   username  party_value             skipgramID word   
+   &lt;chr&gt;     &lt;chr&gt;                   &lt;chr&gt;      &lt;chr&gt;  
+ 1 kirstysnp Scottish National Party 1_1        in     
+ 2 kirstysnp Scottish National Party 1_1        amongst
+ 3 kirstysnp Scottish National Party 1_1        all    
+ 4 kirstysnp Scottish National Party 1_1        the    
+ 5 kirstysnp Scottish National Party 1_1        horror 
+ 6 kirstysnp Scottish National Party 1_1        at     
+ 7 kirstysnp Scottish National Party 1_2        amongst
+ 8 kirstysnp Scottish National Party 1_2        all    
+ 9 kirstysnp Scottish National Party 1_2        the    
+10 kirstysnp Scottish National Party 1_2        horror 
+11 kirstysnp Scottish National Party 1_2        at     
+12 kirstysnp Scottish National Party 1_2        the    
+13 kirstysnp Scottish National Party 1_3        all    
+14 kirstysnp Scottish National Party 1_3        the    
+15 kirstysnp Scottish National Party 1_3        horror 
+16 kirstysnp Scottish National Party 1_3        at     
+17 kirstysnp Scottish National Party 1_3        the    
+18 kirstysnp Scottish National Party 1_3        notion 
+19 kirstysnp Scottish National Party 1_4        the    
+20 kirstysnp Scottish National Party 1_4        horror </code></pre>
+</div>
+</div>
+<p>What next?</p>
+<p>Well we can now calculate a set of probabilities from our skipgrams. We do so with the <code>pairwise_count()</code> function from the <tt>widyr</tt> package. Essentially, this function is saying: for each skipgramID count the number of times a word appears with another word for that feature (where the feature is the skipgramID). We set <code>diag</code> to <code>TRUE</code> when we also want to count the number of times a word appears near itself.</p>
+<p>The probability we are then calculating is the number of times a word appears with another word denominated by the total number of word pairings across the whole corpus.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculate probabilities</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>skipgram_probs <span class="ot">&lt;-</span> tidy_skipgrams <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise_count</span>(word, skipgramID, <span class="at">diag =</span> <span class="cn">TRUE</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="co"># diag = T means that we also count when the word appears twice within the window</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(skipgram_probs[<span class="dv">1000</span><span class="sc">:</span><span class="dv">1020</span>,], <span class="at">n=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Warning: `distinct_()` was deprecated in dplyr 0.7.0.
+Please use `distinct()` instead.
+See vignette('programming') for more help
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 20 × 4
+   item1   item2       n         p
+   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+ 1 no      to       4100 0.0000531
+ 2 vote    for      4099 0.0000531
+ 3 for     vote     4099 0.0000531
+ 4 see     the      4078 0.0000528
+ 5 the     see      4078 0.0000528
+ 6 having  having   4076 0.0000528
+ 7 by      of       4065 0.0000527
+ 8 of      by       4065 0.0000527
+ 9 this    with     4051 0.0000525
+10 with    this     4051 0.0000525
+11 set     set      4050 0.0000525
+12 right   the      4045 0.0000524
+13 the     right    4045 0.0000524
+14 what    the      4044 0.0000524
+15 going   to       4044 0.0000524
+16 the     what     4044 0.0000524
+17 to      going    4044 0.0000524
+18 evening evening  4035 0.0000523
+19 get     the      4032 0.0000522
+20 the     get      4032 0.0000522</code></pre>
+</div>
+</div>
+<p>So we see, for example, the words vote and for appear 4099 times together. Denominating that by the total n of word pairings (or <code>sum(skipgram_probs$n)</code>), gives us our probability p.&nbsp;</p>
+<p>Okay, now we have our skipgram probabilities we need to get our “unigram probabilities” in order to normalize the skipgram probabilities before applying the singular value decomposition.</p>
+<p>What is a “unigram probability”? Well, this is just a technical way of saying: count up all the appearances of a given word in our corpus then divide that by the total number of words in our corpus. And we can do this as such:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculate unigram probabilities (used to normalize skipgram probabilities later)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>unigram_probs <span class="ot">&lt;-</span> twts_sample <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, tweet) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, it’s time to normalize our skipgram probabilities.</p>
+<p>We take our skipgram probabilities, we filter out word pairings that appear twenty times or less. We rename our words “item1” and “item2,” we merge in the unigram probabilities for both words.</p>
+<p>And then we calculate the joint probability as the skipgram probability divided by the unigram probability for the first word in the pairing divided by the unigram probability for the second word in the pairing. This is equivalent to: P(x,y)/P(x)P(y).</p>
+<p>In essence, the interpretation of this value is: <em>“do events (words) x and y occur together more often than we would expect if they were independent”</em>?</p>
+<p>Once we’ve recovered these normalized probabilities, we can have a look at the joint probabilities for a given item, i.e., word. Here, we look at the word “brexit” and look at those words with the highest value for “p_together.”</p>
+<p>Higher values greater than 1 indicate that the words are more likely to appear close to each other; low values less than 1 indicate that they are unlikely to appear close to each other. This, in other words, gives an indication of the association of two words.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#normalize skipgram probabilities</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>normalized_prob <span class="ot">&lt;-</span> skipgram_probs <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">20</span>) <span class="sc">%&gt;%</span> <span class="co">#filter out skipgrams with n &lt;=20</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">word1 =</span> item1, <span class="at">word2 =</span> item2) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(unigram_probs <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="at">word1 =</span> word, <span class="at">p1 =</span> p),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">by =</span> <span class="st">"word1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(unigram_probs <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="at">word2 =</span> word, <span class="at">p2 =</span> p),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">by =</span> <span class="st">"word2"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p_together =</span> p <span class="sc">/</span> p1 <span class="sc">/</span> p2)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>normalized_prob <span class="sc">%&gt;%</span> </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(word1 <span class="sc">==</span> <span class="st">"brexit"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="sc">-</span>p_together)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1,016 × 7
+   word1  word2                      n           p      p1         p2 p_together
+   &lt;chr&gt;  &lt;chr&gt;                  &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 brexit brexit                 38517 0.000499    0.00279 0.00279          64.0
+ 2 brexit softer                    50 0.000000648 0.00279 0.00000484       48.0
+ 3 brexit dividend                 176 0.00000228  0.00279 0.0000201        40.7
+ 4 brexit scotlandsplaceineurope    37 0.000000479 0.00279 0.00000446       38.5
+ 5 brexit botched                  129 0.00000167  0.00279 0.0000208        28.7
+ 6 brexit gridlock                  30 0.000000389 0.00279 0.00000521       26.7
+ 7 brexit deadlock                 120 0.00000155  0.00279 0.0000242        23.0
+ 8 brexit preparedness              22 0.000000285 0.00279 0.00000446       22.9
+ 9 brexit soft                      89 0.00000115  0.00279 0.0000190        21.8
+10 brexit weaken                    24 0.000000311 0.00279 0.00000521       21.4
+# … with 1,006 more rows</code></pre>
+</div>
+</div>
+<p>Using this normalized probabilities, we then calculate the PMI or “Pointwise Mutual Information” value, which is simply the log of the joint probability we calculated above.</p>
+<p><strong>Definition time</strong>: “PMI is logarithm of the probability of finding two words together, normalized for the probability of finding each of the words alone.”</p>
+<p>We then cast our word pairs into a sparse matrix where values correspond to the PMI between two corresponding words.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pmi_matrix <span class="ot">&lt;-</span> normalized_prob <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">pmi =</span> <span class="fu">log10</span>(p_together)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cast_sparse</span>(word1, word2, pmi)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#remove missing data</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>pmi_matrix<span class="sc">@</span>x[<span class="fu">is.na</span>(pmi_matrix<span class="sc">@</span>x)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#run SVD</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>pmi_svd <span class="ot">&lt;-</span> <span class="fu">irlba</span>(pmi_matrix, <span class="dv">256</span>, <span class="at">maxit =</span> <span class="dv">500</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(pmi_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  ..@ i       : int [1:350700] 0 1 2 3 4 5 6 7 8 9 ...
+  ..@ p       : int [1:21173] 0 7819 14360 20175 25467 29910 34368 39207 43376 46401 ...
+  ..@ Dim     : int [1:2] 21172 21172
+  ..@ Dimnames:List of 2
+  .. ..$ : chr [1:21172] "the" "to" "and" "of" ...
+  .. ..$ : chr [1:21172] "the" "to" "and" "of" ...
+  ..@ x       : num [1:350700] 0.65326 -0.01948 -0.00645 0.27136 -0.52462 ...
+  ..@ factors : list()</code></pre>
+</div>
+</div>
+<p>Notice here that we are setting the vector size to equal 256. This just means that we have a vector length of 256 for any given word.</p>
+<p>That is, the set of numbers used to represent a word has length limited to 256. This is arbitrary and can be changed. Typically, a size in the low hundreds is chosen when representing a word as a vector.</p>
+<p>The word vectors are then taken as the “u” column, or the left-singular vectors, of the SVD.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#next we output the word vectors:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>word_vectors <span class="ot">&lt;-</span> pmi_svd<span class="sc">$</span>u</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(word_vectors) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pmi_matrix)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(word_vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 21172   256</code></pre>
+</div>
+</div>
+</section>
+<section id="exploration" class="level2">
+<h2 class="anchored" data-anchor-id="exploration">Exploration</h2>
+<p>We can define a simple function below to then take our word vector, and find the most similar words, or nearest neighbours, for a given word:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nearest_words <span class="ot">&lt;-</span> <span class="cf">function</span>(word_vectors, word){</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  selected_vector <span class="ot">=</span> word_vectors[word,]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  mult <span class="ot">=</span> <span class="fu">as.data.frame</span>(word_vectors <span class="sc">%*%</span> selected_vector) <span class="co">#dot product of selected word vector and all word vectors</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  mult <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">word =</span> rowname,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">similarity =</span> V1) <span class="sc">%&gt;%</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anti_join</span>(<span class="fu">get_stopwords</span>(<span class="at">language =</span> <span class="st">"en"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>similarity)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>boris_synonyms <span class="ot">&lt;-</span> <span class="fu">nearest_words</span>(word_vectors, <span class="st">"boris"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Joining, by = "word"</code></pre>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>brexit_synonyms <span class="ot">&lt;-</span> <span class="fu">nearest_words</span>(word_vectors, <span class="st">"brexit"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>Joining, by = "word"</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(boris_synonyms, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>      word similarity
+1  johnson 0.10309556
+2    boris 0.09940448
+3   jeremy 0.04823204
+4    trust 0.04800155
+5   corbyn 0.04102031
+6   farage 0.03973588
+7    trump 0.03938184
+8    can.t 0.03533624
+9     says 0.03324624
+10    word 0.03267437</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(brexit_synonyms, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       word similarity
+1    brexit 0.38737979
+2      deal 0.15083433
+3   botched 0.05003683
+4      tory 0.04377030
+5   unleash 0.04233445
+6    impact 0.04139872
+7   theresa 0.04017608
+8  approach 0.03970233
+9  handling 0.03901461
+10  orderly 0.03897535</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#then we can visualize</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>brexit_synonyms <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">selected =</span> <span class="st">"brexit"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(boris_synonyms <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">selected =</span> <span class="st">"boris"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(selected) <span class="sc">%&gt;%</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">15</span>, similarity) <span class="sc">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> <span class="fu">reorder</span>(word, similarity)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(token<span class="sc">!=</span>selected) <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(token, similarity, <span class="at">fill =</span> selected)) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>selected, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#336B87"</span>, <span class="st">"#2A3132"</span>)) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>(<span class="at">base_family =</span> <span class="st">"Helvetica"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="05_cta_notebook2_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="glove-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="glove-embeddings">GloVe Embeddings</h2>
+<p>This section adapts from tutorials by Pedro Rodriguez <a href="https://github.com/prodriguezsosa/conText/blob/master/vignettes/quickstart_local_transform.md">here</a> and Dmitriy Selivanov <a href="http://text2vec.org/glove.html">here</a> and Wouter van Gils <a href="https://medium.com/broadhorizon-cmotions/nlp-with-r-part-2-training-word-embedding-models-and-visualize-results-ae444043e234">here</a>.</p>
+</section>
+<section id="glove-algorithm" class="level2">
+<h2 class="anchored" data-anchor-id="glove-algorithm">GloVe algorithm</h2>
+<p>This section is taken from <tt>text2vec</tt> package page <a href="http://text2vec.org/glove.html">here</a>.</p>
+<p>The GloVe algorithm by pennington_glove_2014 consists of the following steps:</p>
+<ol type="1">
+<li><p>Collect word co-occurence statistics in a form of word co-ocurrence matrix <span class="math inline">\(X\)</span>. Each element <span class="math inline">\(X_{ij}\)</span> of such matrix represents how often word <em>i</em> appears in context of word <em>j</em>. Usually we scan our corpus in the following manner: for each term we look for context terms within some area defined by a <em>window_size</em> before the term and a <em>window_size</em> after the term. Also we give less weight for more distant words, usually using this formula: <span class="math display">\[decay = 1/offset\]</span></p></li>
+<li><p>Define soft constraints for each word pair: <span class="math display">\[w_i^Tw_j + b_i + b_j = log(X_{ij})\]</span> Here <span class="math inline">\(w_i\)</span> - vector for the main word, <span class="math inline">\(w_j\)</span> - vector for the context word, <span class="math inline">\(b_i\)</span>, <span class="math inline">\(b_j\)</span> are scalar biases for the main and context words.</p></li>
+<li><p>Define a cost function <span class="math display">\[J = \sum_{i=1}^V \sum_{j=1}^V \; f(X_{ij}) ( w_i^T w_j + b_i + b_j - \log X_{ij})^2\]</span> Here <span class="math inline">\(f\)</span> is a weighting function which help us to prevent learning only from extremely common word pairs. The GloVe authors choose the following function:</p></li>
+</ol>
+<p><span class="math display">\[
+f(X_{ij}) =
+\begin{cases}
+(\frac{X_{ij}}{x_{max}})^\alpha &amp; \text{if } X_{ij} &lt; XMAX \\
+1 &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<p>How do we go about implementing this algorithm in R?</p>
+<p>Let’s first make sure we have loaded the packages we need:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(text2vec) <span class="co"># for implementation of GloVe algorithm</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr) <span class="co"># to handle text strings</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(umap) <span class="co"># for dimensionality reduction later on</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="implementation-1" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-1">Implementation</h2>
+<p>We then need to set some of the choice parameters of the GloVe model. The first is the window size <code>WINDOW_SIZE</code>, which, as above, is arbitrary but normally set around 6-8. This means we are looking for word context of words up to 6 words around the target word. The image below illustrates this choice parameter for the word “cat” in a given sentence, with increase context window size:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/window.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Context window</figcaption><p></p>
+</figure>
+</div>
+
+</section>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

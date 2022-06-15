@@ -424,4 +424,4 @@ And now... we're pretty much there...back where we started!
 ## Exercises
 
 -   Go to <http://books.toscrape.com/> and write a script that captures information on one of the genres on the left hand side. This information is up to you to select (could be e.g., links; titles; prices...).
--  (Harder) go to <https://www.theguardian.com/politics> and grab the title, author, and text of all today's politics articles in The Guardian
+-   (Harder) go to <https://www.theguardian.com/politics> and grab the title, author, and text of all today's politics articles in The Guardian
