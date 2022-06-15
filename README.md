@@ -1,8 +1,8 @@
 # SICSS-Edinburgh
 
-**Instructor**: Christopher Barrie, Lecturer in Computational Sociology, School of Social and Political Science, University of Edinburgh
+**Instructors**: Christopher Barrie (Sociology), Karen Gregory (Sociology), Tod Van Gunten (Sociology), Walid Magdy (Informatics), and Björn Ross (Informatics).
 
-**Course description**: This repo is for materials used in the SICSS-Edinburgh 2022 summer school. 
+**Course description**: This repo is for materials used in the SICSS-Edinburgh 2022 summer school held at the University of Edinburgh.
 
 ![Alt Text](coursebanner.png)
 
