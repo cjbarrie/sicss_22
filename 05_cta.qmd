@@ -1,0 +1,132 @@
+---
+title: "Computational Text Analysis"
+subtitle: "SICSS, 2022"
+author: Christopher Barrie
+format:
+  revealjs:
+    chalkboard: true
+editor: visual
+---
+
+## Manipulating text
+
+```{r, eval = T, echo = T}
+library(dplyr) #tidyverse package for wrangling data
+library(quanteda) #quantitative text analysis package
+library(tidytext) #package for 'tidy' manipulation of text data
+library(topicmodels) #for topic modelling
+library(ggplot2) #package for visualizing data
+library(ggthemes) #to make plots nicer
+library(stringi) #to generate random text
+```
+
+## Tokenizing
+
+```{r, eval = T, echo = T}
+lipsum_text <- data.frame(text = stri_rand_lipsum(1, start_lipsum = TRUE))
+
+head(lipsum_text$text)
+```
+
+## Tokenizing
+
+```{r, eval = T, echo = T}
+tokens <- lipsum_text %>%
+  unnest_tokens(word, text)
+
+head(tokens)
+```
+
+## Topic modelling
+
+```{r, eval = T, echo = T}
+#| code-line-numbers: "|1|2|4"
+
+data("AssociatedPress", 
+     package = "topicmodels")
+
+ap_tidy <- tidy(AssociatedPress)
+ap_tidy
+```
+
+## Topic modelling
+
+```{r, eval = T, echo = T}
+
+data("AssociatedPress", 
+     package = "topicmodels")
+
+str(AssociatedPress)
+```
+
+## Inspect topic terms
+
+```{r, eval = T, echo = T}
+
+lda_output <- LDA(AssociatedPress[1:100,], k = 10)
+
+terms(lda_output, 10)
+```
+
+## Inspect βs
+
+```{r, eval = T, echo = T}
+lda_beta <- tidy(lda_output, matrix = "beta")
+
+lda_beta %>%
+  arrange(-beta)
+```
+
+## Inspect γs
+
+```{r, eval = T, echo = T}
+lda_gamma <- tidy(lda_output, matrix = "gamma")
+
+lda_gamma %>%
+  arrange(-gamma)
+```
+
+## Plot
+
+```{r, eval = T, echo = T}
+
+lda_beta %>%
+  group_by(topic) %>%
+  top_n(10, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta) %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free", ncol = 4) +
+  scale_y_reordered() +
+  theme_tufte(base_family = "Helvetica")
+
+```
+
+## Plot
+
+::: panel-tabset
+### Code
+
+```{r, echo = T, eval = T}
+betaplot <- lda_beta %>%
+  group_by(topic) %>%
+  top_n(10, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta) %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free", ncol = 4) +
+  scale_y_reordered() +
+  theme_tufte(base_family = "Helvetica")
+```
+
+### Plot
+
+```{r, eval = T, echo = F}
+betaplot
+```
+
+:::
