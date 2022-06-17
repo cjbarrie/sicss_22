@@ -67,6 +67,10 @@
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/gunten.pdf)
 - Materials: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_materials/gunten/)
 
+## Speaker slides
+
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/speaker_slides/wolters.pdf)
+
 # Day 4
 
 ## Computational Text Analysis
@@ -86,3 +90,11 @@
 ## Text classification in practice
 
 - Notebook 1: [here](https://colab.research.google.com/drive/13U89jMNzL-q_gg7sCSjrSWZIHnKA6UJ5?usp=sharing#scrollTo=9uapzhjYHeHl)
+- Notebook 2: [here](https://colab.research.google.com/drive/167Btt6jOd0Ielsftd6UfU0NOuWmz7ejF?usp=sharing)
+- Notebook 3: [here](https://colab.research.google.com/drive/1IX6ssjfhvpXwsZ-vyEY47u-UA5S8CwJz?usp=sharing)
+- Notebook 4: [here](https://colab.research.google.com/drive/1Oy0OwpXKuBpASbonLxnfhsZeCAntf6bQ?usp=sharing)
+
+
+## Speaker slides
+
+- Slides: [here](https://colab.research.google.com/drive/13U89jMNzL-q_gg7sCSjrSWZIHnKA6UJ5?usp=sharing#scrollTo=9uapzhjYHeHl)
