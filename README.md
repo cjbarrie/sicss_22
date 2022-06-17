@@ -84,3 +84,5 @@
 # Day 4
 
 ## Text classification in practice
+
+- Notebook 1: [here](https://colab.research.google.com/drive/13U89jMNzL-q_gg7sCSjrSWZIHnKA6UJ5?usp=sharing#scrollTo=9uapzhjYHeHl)
