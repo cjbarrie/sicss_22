@@ -80,3 +80,7 @@
 ## Classification
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/magdy.pdf)
+
+# Day 4
+
+## Text classification in practice
