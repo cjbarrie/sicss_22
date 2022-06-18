@@ -85,9 +85,11 @@
 
 - Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/magdy.pdf)
 
-# Day 4
+# Day 5
 
 ## Text classification in practice
+
+- Slides: [here](https://github.com/cjbarrie/sicss_22/blob/main/organizer_slides/ross2.pdf)
 
 - Notebook 1: [here](https://colab.research.google.com/drive/13U89jMNzL-q_gg7sCSjrSWZIHnKA6UJ5?usp=sharing#scrollTo=9uapzhjYHeHl)
 - Notebook 2: [here](https://colab.research.google.com/drive/167Btt6jOd0Ielsftd6UfU0NOuWmz7ejF?usp=sharing)
